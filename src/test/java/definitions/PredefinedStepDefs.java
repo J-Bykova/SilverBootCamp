@@ -1,4 +1,3 @@
-// Created by Viacheslav (Slava) Skryabin 04/01/2011
 package definitions;
 
 import io.cucumber.java.en.Given;
@@ -9,6 +8,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.io.File;
 import java.time.Duration;
 import java.util.Date;
@@ -21,6 +21,7 @@ public class PredefinedStepDefs {
     public void iOpenUrl(String url) {
         getDriver().get(url);
     }
+
     @Then("I resize window to {int} and {int}")
     public void iResizeWindowToAnd(int width, int height) {
         Dimension dimension = new Dimension(width, height);
