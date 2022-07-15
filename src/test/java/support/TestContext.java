@@ -33,7 +33,7 @@ public class TestContext {
     }
 
     public static void initialize() {
-        initialize("chrome", "local", false);
+        initialize("chrome", "local", true);
     }
 
     public static void teardown() {
@@ -63,7 +63,7 @@ public class TestContext {
 //                    chromePreferences.put("profile.default_content_setting_values.cookies", 2);
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--start-maximized");
-                    chromeOptions.addArguments("--headless", "--window-size=1368,768");
+//                    chromeOptions.addArguments("--headless", "--window-size=1368,768");
                     chromeOptions.addArguments("--incognito");
 
                     chromeOptions.setExperimentalOption("prefs", chromePreferences);
