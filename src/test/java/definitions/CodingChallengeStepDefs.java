@@ -46,6 +46,8 @@ public class CodingChallengeStepDefs {
         new Printer().reversesStr(str);
     }
 
-    @Then("I see reverses string with {string}")
-    public void iSeeReversesStringWith(String str) {}
+    @Then("I see {string} reverses to {string}")
+    public void iSeeReversesTo(String str, String strResult) {
+        Assert.assertEquals(strResult, new Printer().reversesStr(str));
+    }
 }

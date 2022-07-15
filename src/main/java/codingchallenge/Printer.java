@@ -2,6 +2,7 @@ package codingchallenge;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.reflect.Field;
 
 public class Printer {
     public String printUpTo(int n) {
@@ -59,10 +60,9 @@ public class Printer {
     }
 
     public String reversesStr(String str) {
-        char[] ch = new char[str.length()];
         String result = "";
-        for (int i = ch.length-1; i >= 0; i--) {
-            result += ch[i];
+        for (int i = 0; i < str.length(); i++){
+            result = str.charAt(i) + result;
         }
         return result;
     }

@@ -28,12 +28,16 @@ Feature: Coding challenges
   Scenario: Checks if array contains element
     When I run isArrContainsElem(arr)
 
-  Scenario: Reverses string
-    When I run reversesStr(str) with "string"
-    Then I see reverses string with "gnirts"
+  Scenario Outline: Reverses string
+    When I run reversesStr(str) with <str>
+    Then I see <str> reverses to <reversStr>
+    Examples:
+      | str      | reversStr |
+      | "string" | "gnirts"  |
 
 
-
+#    * Write a function that determines palindrome (worlds like mom, civic, anna)
+#    * Write a function that finds 2 max numbers in the array
 
 #    * function	that swaps two array elements
 #    * function that accepts integer number and returns
