@@ -34,6 +34,7 @@ Feature: Coding challenges
     Examples:
       | str      | reversStr |
       | "string" | "gnirts"  |
+      | "s"      | "s"       |
 
 
 #    * Write a function that determines palindrome (worlds like mom, civic, anna)

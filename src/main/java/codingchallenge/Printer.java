@@ -60,8 +60,11 @@ public class Printer {
     }
 
     public String reversesStr(String str) {
+        if (str.length() == 1) {
+            return str;
+        }
         String result = "";
-        for (int i = 0; i < str.length(); i++){
+        for (int i = 0; i < str.length(); i++) {
             result = str.charAt(i) + result;
         }
         return result;
