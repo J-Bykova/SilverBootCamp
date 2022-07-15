@@ -1,6 +1,6 @@
 Feature: Validate Quote
   Background: Open quote page
-    Given I open url "https://skryabin.com/market/quote.html"
+    Given I go to "quote" page
 
   Scenario: Verify that upon clicking dialog appears
     When I click on element with xpath "//input[@id ='dateOfBirth']"

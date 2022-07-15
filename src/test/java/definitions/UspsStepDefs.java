@@ -30,10 +30,10 @@ public class UspsStepDefs {
     String resultsContainerPath = "//*[@id='zipByAddressDiv']";
     WebDriver driver = getDriver();
 
-    @Given("I go to {string} page")
-    public void iGoToPage(String url) {
-        getDriver().get(url);
-    }
+//    @Given("I go to {string} page")
+//    public void iGoToPage(String url) {
+//        driver.get(url);
+//    }
 
     @When("I go to Lookup ZIP page by address")
     public void iGoToLookupZIPPageByAddress() {

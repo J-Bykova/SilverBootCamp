@@ -52,9 +52,18 @@ public class Printer {
         }
     }
 
-    public boolean isArrContainsElem(){
+    public boolean isArrContainsElem() {
         String str = "Thank you. Your order has been received.";
 //        throw new RuntimeException();
         return true;
+    }
+
+    public String reversesStr(String str) {
+        char[] ch = new char[str.length()];
+        String result = "";
+        for (int i = ch.length-1; i >= 0; i--) {
+            result += ch[i];
+        }
+        return result;
     }
 }

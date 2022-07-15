@@ -3,7 +3,7 @@ Feature: Smoke steps
 
   @predefined1
   Scenario: Predefined steps for Google
-    Given I open url "https://google.com"
+    Given I go to "google" page
     Then I should see page title as "Google"
     Then element with xpath "//input[@name='q']" should be present
     When I type "Behavior Driven Development" into element with xpath "//input[@name='q']"
@@ -13,7 +13,7 @@ Feature: Smoke steps
 
   @predefined2
   Scenario: Predefined steps for Yahoo
-    Given I open url "https://www.yahoo.com"
+    Given I go to "yahoo" page
     Then I should see page title contains "Yahoo"
     Then element with xpath "//label[text()= 'Search query']/../input[@name='p']" should be present
     When I type "Behavior Driven Development" into element with xpath "//label[text()= 'Search query']/../input[@name='p']"
@@ -23,7 +23,7 @@ Feature: Smoke steps
 
   @predefined3
   Scenario: Predefined steps for Bing
-    Given I open url "https://www.bing.com "
+    Given I go to "bing" page
     Then I should see page title as "Bing"
     Then element with xpath "//form[@id='sb_form']/input[@type='search']" should be present
     When I type "Behavior Driven Development" into element with xpath "//form[@id='sb_form']/input[@type='search']"
@@ -33,7 +33,7 @@ Feature: Smoke steps
 
   @predefined4
   Scenario: Predefined steps for Gibiru
-    Given I open url "http://gibiru.com "
+    Given I go to "gibiru" page
     Then I should see page title contains "Gibiru"
     Then element with xpath "//input[contains(@class, 'form-control')]" should be present
     When I type "Behavior Driven Development" into element with xpath "//input[contains(@class, 'form-control')]"
@@ -43,7 +43,7 @@ Feature: Smoke steps
 
   @predefined5
   Scenario: Predefined steps for DuckDuckGo
-    Given I open url "https://duckduckgo.com "
+    Given I go to "duckDuckGo" page
     Then I should see page title contains "DuckDuckGo"
     Then element with xpath "//input[@id='search_form_input_homepage']" should be present
     When I type "Behavior Driven Development" into element with xpath "//input[@id='search_form_input_homepage']"
@@ -53,7 +53,7 @@ Feature: Smoke steps
 
   @predefined6
   Scenario: Predefined steps for swisscows
-    Given I open url "https://swisscows.com "
+    Given I go to "swisscows" page
     Then I should see page title contains "Swisscows"
     Then element with xpath "//input[@class='input-search']" should be present
     When I type "Behavior Driven Development" into element with xpath "//input[@class='input-search']"
