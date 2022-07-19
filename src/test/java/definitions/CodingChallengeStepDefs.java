@@ -5,6 +5,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 
+import java.util.Arrays;
+
 public class CodingChallengeStepDefs {
     private String result;
 
@@ -49,5 +51,25 @@ public class CodingChallengeStepDefs {
     @Then("I see {string} reverses to {string}")
     public void iSeeReversesTo(String str, String strResult) {
         Assert.assertEquals(strResult, new Printer().reversesStr(str));
+    }
+
+    @Then("I expect isStrPalindrome\\(str) returns true for {string}")
+    public void iExpectIsStrPalindromeStrReturnsTrueForWord(String str) {
+        Assert.assertTrue(new Printer().isStrPalindrome(str));
+    }
+
+    @Then("I expect isStrPalindrome\\(str) returns false for {string}")
+    public void iExpectIsStrPalindromeStrReturnsFalseForWord(String str) {
+        Assert.assertFalse(new Printer().isStrPalindrome(str));
+    }
+
+    @Then("I expect getTwoMaxNums\\(arr) returns two max numbers from {string}")
+    public void iExpectGetTwoMaxNumsArrReturnsTwoMaxNumbersFrom(String str) {
+        String[] numArray = null;
+        numArray = str.split(" ");
+        for (int i = 0; i< numArray.length; i++){
+            System.out.println(numArray[i]);
+        }
+        throw new RuntimeException();
     }
 }

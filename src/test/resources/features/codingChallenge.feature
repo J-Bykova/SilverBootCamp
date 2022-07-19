@@ -37,8 +37,25 @@ Feature: Coding challenges
       | "s"      | "s"       |
 
 
-#    * Write a function that determines palindrome (worlds like mom, civic, anna)
-#    * Write a function that finds 2 max numbers in the array
+  Scenario Outline: Returns true if a palindrome
+    Then I expect isStrPalindrome(str) returns true for <word>
+    Examples:
+      | word   |
+      | ""     |
+      | "a"    |
+      | "aa"   |
+      | "aba"  |
+      | "abba" |
+
+  Scenario Outline: Returns false if not a palindrome
+    Then I expect isStrPalindrome(str) returns false for <word>
+    Examples:
+      | word   |
+      | "ab"   |
+      | "abs"  |
+
+  Scenario: Returns two max numbers in the array
+    Then  I expect getTwoMaxNums(arr) returns two max numbers from "{1,2,3,4}"
 
 #    * function	that swaps two array elements
 #    * function that accepts integer number and returns

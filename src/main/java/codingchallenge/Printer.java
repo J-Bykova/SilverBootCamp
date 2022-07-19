@@ -55,7 +55,6 @@ public class Printer {
 
     public boolean isArrContainsElem() {
         String str = "Thank you. Your order has been received.";
-//        throw new RuntimeException();
         return true;
     }
 
@@ -68,5 +67,18 @@ public class Printer {
             result = str.charAt(i) + result;
         }
         return result;
+    }
+
+    public Boolean isStrPalindrome(String str) {
+        if (str.length() == 0) {
+            return true;
+        }
+
+        for (int l = 0, r = str.length() - 1; l <= r; l++, r--) {
+            if (str.charAt(l) != str.charAt(r)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
