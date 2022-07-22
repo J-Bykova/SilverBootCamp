@@ -6,6 +6,9 @@ import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
 import static support.TestContext.getDriver;
 
 public class Hooks {
@@ -14,6 +17,8 @@ public class Hooks {
     public void scenarioStart() {
         TestContext.initialize();
         getDriver().manage().deleteAllCookies();
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+        getDriver(). manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
     }
 
     @After(order = 0)

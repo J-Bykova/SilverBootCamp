@@ -1,13 +1,19 @@
 Feature: USPS
-  Scenario: Validate ZIP code for Portnov Computer School
+  Scenario Outline: Validate ZIP code for Portnov Computer School
     Given I go to "usps" page
     When I go to Lookup ZIP page by address
-    And I fill out "4970 El Camino Real" street, "Los Altos" city, "CA" state
-    Then I validate "94022" zip code exists in the result
+    And I fill out <street> street, <city> city, <state> state
+    Then I validate <zip> zip code exists in the result
+    Examples:
+      | street                | city        | state | zip     |
+      | "4970 El Camino Real" | "Los Altos" | "CA"  | "94022" |
 
-  Scenario: Calculate price
+  Scenario Outline: Calculate price
     Given I go to "usps" page
     When I go to Calculate Price Page
-    And I select "Canada" with "Postcard" shape
-    And I define "2" quantity
-    Then I calculate the price and validate cost is "$2.80"
+    And I select <country> with Postcard shape
+    And I define <quantity> quantity
+    Then I calculate the price and validate cost is <price>
+    Examples:
+      | country  | quantity | price   |
+      | "Canada" | "2"      | "$2.80" |

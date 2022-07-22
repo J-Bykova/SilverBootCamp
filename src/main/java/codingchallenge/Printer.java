@@ -2,7 +2,6 @@ package codingchallenge;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Field;
 
 public class Printer {
     public String printUpTo(int n) {
@@ -53,6 +52,7 @@ public class Printer {
         }
     }
 
+    // TODO undone
     public boolean isArrContainsElem() {
         String str = "Thank you. Your order has been received.";
         return true;
@@ -80,5 +80,12 @@ public class Printer {
             }
         }
         return true;
+    }
+
+    // TODO undone
+    public void getTwoMaxNums(char[] arr) {
+        System.out.println(arr);
+//        Arrays.sort(arr);
+        throw new RuntimeException();
     }
 }

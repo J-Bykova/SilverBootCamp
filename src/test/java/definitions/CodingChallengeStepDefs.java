@@ -5,8 +5,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 
-import java.util.Arrays;
-
 public class CodingChallengeStepDefs {
     private String result;
 
@@ -63,13 +61,18 @@ public class CodingChallengeStepDefs {
         Assert.assertFalse(new Printer().isStrPalindrome(str));
     }
 
+    // TODO undone
     @Then("I expect getTwoMaxNums\\(arr) returns two max numbers from {string}")
     public void iExpectGetTwoMaxNumsArrReturnsTwoMaxNumbersFrom(String str) {
-        String[] numArray = null;
-        numArray = str.split(" ");
-        for (int i = 0; i< numArray.length; i++){
-            System.out.println(numArray[i]);
-        }
+        new Printer().getTwoMaxNums(convertToArr(str));
+    }
+
+    private char[] convertToArr(String str) {
+        return str.toCharArray();
+    }
+
+    @Then("I expect getThirdElem\\(str) returns every third element from str")
+    public void iExpectGetThirdElemStrReturnsEveryThirdElementFromStr() {
         throw new RuntimeException();
     }
 }

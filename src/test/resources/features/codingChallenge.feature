@@ -36,7 +36,6 @@ Feature: Coding challenges
       | "string" | "gnirts"  |
       | "s"      | "s"       |
 
-
   Scenario Outline: Returns true if a palindrome
     Then I expect isStrPalindrome(str) returns true for <word>
     Examples:
@@ -54,8 +53,12 @@ Feature: Coding challenges
       | "ab"   |
       | "abs"  |
 
+   Scenario: Returns every third element
+     Then I expect getThirdElem(str) returns every third element from str
+
+ # TODO undone
   Scenario: Returns two max numbers in the array
-    Then  I expect getTwoMaxNums(arr) returns two max numbers from "{1,2,3,4}"
+    Then  I expect getTwoMaxNums(arr) returns two max numbers from "1,2,3,4"
 
 #    * function	that swaps two array elements
 #    * function that accepts integer number and returns
