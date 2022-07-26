@@ -1,6 +1,7 @@
 package definitions;
 
 import codingchallenge.Printer;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -61,18 +62,34 @@ public class CodingChallengeStepDefs {
         Assert.assertFalse(new Printer().isStrPalindrome(str));
     }
 
-    // TODO undone
     @Then("I expect getTwoMaxNums\\(arr) returns two max numbers from {string}")
     public void iExpectGetTwoMaxNumsArrReturnsTwoMaxNumbersFrom(String str) {
         new Printer().getTwoMaxNums(convertToArr(str));
     }
 
-    private char[] convertToArr(String str) {
-        return str.toCharArray();
+    @Then("I expect maskify\\({string}) returns {string}")
+    public void iExpectMaskifyReturns(String str, String result) {
+        Assert.assertEquals(maskify(str), result);
     }
 
     @Then("I expect getThirdElem\\(str) returns every third element from str")
     public void iExpectGetThirdElemStrReturnsEveryThirdElementFromStr() {
         throw new RuntimeException();
+    }
+
+    private String maskify(String str) {
+        String result = "";
+        if (str.length() <= 4) {
+            return str;
+        } else {
+            for (int i = 0; i < str.length() - 4; i++) {
+                result += "*";
+            }
+            return (result + str.substring(str.length() - 4));
+        }
+    }
+
+    private char[] convertToArr(String str) {
+        return str.toCharArray();
     }
 }

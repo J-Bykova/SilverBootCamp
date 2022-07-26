@@ -1,5 +1,15 @@
 Feature: Coding challenges
 
+  Scenario Outline: Print Credit Card Masking
+    Then I expect maskify(<str>) returns <result>
+    Examples:
+      | str           | result        |
+      | ""            | ""            |
+      | "1"           | "1"           |
+      | "1234"        | "1234"        |
+      | "12345"       | "*2345"       |
+      | "64607935616" | "*******5616" |
+
   Scenario Outline: prints all numbers from 0 up to n
     When I run printUpTo(n) with <n>
     Then it returns <result>
@@ -49,12 +59,12 @@ Feature: Coding challenges
   Scenario Outline: Returns false if not a palindrome
     Then I expect isStrPalindrome(str) returns false for <word>
     Examples:
-      | word   |
-      | "ab"   |
-      | "abs"  |
+      | word  |
+      | "ab"  |
+      | "abs" |
 
-   Scenario: Returns every third element
-     Then I expect getThirdElem(str) returns every third element from str
+  Scenario: Returns every third element
+    Then I expect getThirdElem(str) returns every third element from str
 
  # TODO undone
   Scenario: Returns two max numbers in the array
