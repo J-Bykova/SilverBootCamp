@@ -80,11 +80,12 @@ public class UspsStepDefs {
     @And("I select {string} with Postcard shape")
     public void iSelectCountryWithShape(String country) {
         WebElement countryDropdown = driver.findElement(By.xpath("//select[@id='CountryID']"));
-        String canadaElem = "//*[@id='CountryID']/option[text()='Canada']";
+        WebElement countryElem = driver.findElement(By.xpath(String.format("//option[text()='%s']", country)));
         WebElement postcardButton = driver.findElement(By.xpath("//*[@id='options-section']//input[@value='Postcard']"));
 
-        countryDropdown.click();
-        waitFor(canadaElem).click();
+//        countryDropdown.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated((By) countryDropdown)).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated((By) countryElem)).click();
         postcardButton.click();
     }
 

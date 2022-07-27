@@ -127,3 +127,19 @@ Feature: Validate Quote
       | first_name | last_name | user_name | email       | password | full_name    |
       | Jenny      | Bykova    | Jenny_B   | j@gmail.com | 12345    | Jenny Bykova |
 
+
+
+#  HOMEWORK FOR DAY 7
+#  1) Do exercises in Day7_slides - refer to steps in quote.feature
+
+
+#  HOMEWORK FOR DAY 11
+#  Write three BDD scenarios that would:
+#  1) Go to converter page
+#  2) Would click on Temperature, Weight, Length, etc.
+#  3) Set from which Unit and to which Unit with specific values
+#  4) Set From field value and verify any result in To value
+#  Temperature: 54 Fahrenheit to Celsius result is 12.2
+#  Weight: 170 Pound to Kilogram is 77
+#  Length: 50 Mile to Kilometer is 80.4
+#  Convert to scenario outline after implementation.
