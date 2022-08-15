@@ -1,14 +1,12 @@
 package definitions;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.junit.internal.runners.statements.FailOnTimeout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class CodingChallengeStepDefs {
     private String result;
@@ -59,11 +57,6 @@ public class CodingChallengeStepDefs {
     @Then("I expect isStrPalindrome\\(str) returns false for {string}")
     public void iExpectIsStrPalindromeStrReturnsFalseForWord(String str) {
         Assert.assertFalse(isStrPalindrome(str));
-    }
-
-    @Then("I expect getTwoMaxNums\\(arr) returns two max numbers from {string}")
-    public void iExpectGetTwoMaxNumsArrReturnsTwoMaxNumbersFrom(String str) {
-        getTwoMaxNums(convertToArr(str));
     }
 
     @Then("I expect maskify\\({string}) returns {string}")
@@ -152,10 +145,122 @@ public class CodingChallengeStepDefs {
         Assert.assertEquals(result, expected);
     }
 
-    private boolean findsSum(int[] arr, int num) {
+    @Then("I expect isSumOddOrEven\\({string}) to return {string}")
+    public void iExpectIsSumOddOrEvenArrToReturnResult(String str, String expected) {
+        int[] arr = {1, 2, 3, 4, 5};
+        System.out.println(getSumOfArray(arr));
+    }
+
+    @Then("I expect isOddOrEven\\({int}) returns {string} if num is odd or {string} if num is even")
+    public void iExpectIsOddOrEvenNumReturnsIfNumIsOddOrIfNumIsEven(int num, String odd, String even) {
+        if (num % 2 == 0) {
+            System.out.println(num + " is " + even);
+        } else {
+            System.out.println(num + " is " + odd);
+        }
+    }
+
+    @And("Return every third element")
+    public void returnEveryThirdElement() {
+        String str = "string";
+        int[] arr = {1, 2, 3, 4, 5};
+        List<String> list = new ArrayList<String>();
+        list.add("Mango");
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Grapes");
+
+        printThirdEl(str);
+        printThirdEl(arr);
+        printThirdEl(list);
+    }
+
+    @And("I run buzzFizz\\({int}) function")
+    public void iRunBuzzFizzFunction(int target) {
+        for (int num = 1; num <= target; num++) {
+            if (num % 3 == 0 && num % 5 == 0) {
+                System.out.print("FizzBuzz ");
+            } else if (num % 3 == 0) {
+                System.out.print("Fizz ");
+            } else if (num % 5 == 0) {
+                System.out.print("Buzz ");
+            } else {
+                System.out.print(num + " ");
+            }
+        }
+
+    }
+
+    @And("I expect getTwoMaxNums\\(arr) returns two max numbers from array")
+    public void iExpectGetTwoMaxNumsArrReturnsTwoMaxNumbersFromArray() {
+        int[] arr = {1, 7, 3, 9, 5};
+        printTwoMax(arr);
+    }
+
+    @And("I expect getLargestElem\\(arr) returns the largest element in an array")
+    public void iExpectGetLargestElemArrReturnsTheLargestElementInAnArray() {
+        int[] arr = {1, 7, 3, 9, 5};
+        printMaxNum(arr);
+    }
+
+    private void printMaxNum(int[] arr) {
+        int maxNum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (maxNum < arr[i]) {
+                maxNum = arr[i];
+            }
+        }
+        System.out.println("Max num is " + maxNum);
+    }
+
+    private void printTwoMax(int[] arr) {
+        int firstNum = Integer.MIN_VALUE;
+        int secondNum = Integer.MIN_VALUE;
+
+        for (int i = 1; i < arr.length; i++) {
+            if (firstNum < arr[i]) {
+                secondNum = firstNum;
+                firstNum = arr[i];
+            } else if (secondNum < arr[i]){
+                secondNum = arr[i];
+            }
+        }
+        System.out.println("First max number is " + firstNum);
+        System.out.println("Second max number is " + secondNum);
+    }
+
+    private void printThirdEl(String str) {
+        for (int i = 0; i < str.length(); i = i + 3) {
+            if (i % 3 == 0) {
+                System.out.println(str.charAt(i));
+            }
+        }
+    }
+
+    private void printThirdEl(int[] arr) {
+        for (int i = 0; i < arr.length; i = i + 3) {
+            System.out.println(arr[i]);
+        }
+    }
+
+    private void printThirdEl(List<String> list) {
+        for (int i = 0; i < list.size(); i = i + 3) {
+            System.out.println(list.get(i));
+        }
+    }
+
+    private int getSumOfArray(int[] arr) {
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+
+    private boolean findsSum(int[] arr, int sum) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] + arr[j] == num) {
+                if (arr[i] + arr[j] == sum) {
                     return true;
                 }
             }
@@ -173,10 +278,6 @@ public class CodingChallengeStepDefs {
             }
             return (result + str.substring(str.length() - 4));
         }
-    }
-
-    private char[] convertToArr(String str) {
-        return str.toCharArray();
     }
 
     private String printUpTo(int n) {
@@ -249,12 +350,5 @@ public class CodingChallengeStepDefs {
             }
         }
         return true;
-    }
-
-    // TODO undone
-    private void getTwoMaxNums(char[] arr) {
-        System.out.println(arr);
-//        Arrays.sort(arr);
-        throw new RuntimeException();
     }
 }

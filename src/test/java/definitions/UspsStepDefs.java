@@ -22,7 +22,7 @@ import static support.TestContext.getDriver;
 public class UspsStepDefs {
     WebDriver driver = getDriver();
     Actions actions = new Actions(driver);
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
     WebElement navMenuSendButton = driver.findElement(By.xpath("//*[@id='navmailship']/../a[text()='Send']"));
 
@@ -63,9 +63,11 @@ public class UspsStepDefs {
 
         List<String> resultTexts = new ArrayList<>();
         for (WebElement element : resultElements) {
-            String fullZip = element.getText();
-            String shortZip = fullZip.substring(0, 5);
-            resultTexts.add(shortZip);
+            if (element.isDisplayed()) {
+                String fullZip = element.getText();
+                String shortZip = fullZip.substring(0, 5);
+                resultTexts.add(shortZip);
+            }
         }
         assertThat(resultTexts).contains(zipCode);
     }
@@ -83,7 +85,6 @@ public class UspsStepDefs {
         WebElement countryElem = driver.findElement(By.xpath(String.format("//option[text()='%s']", country)));
         WebElement postcardButton = driver.findElement(By.xpath("//*[@id='options-section']//input[@value='Postcard']"));
 
-//        countryDropdown.click();
         wait.until(ExpectedConditions.presenceOfElementLocated((By) countryDropdown)).click();
         wait.until(ExpectedConditions.presenceOfElementLocated((By) countryElem)).click();
         postcardButton.click();
@@ -108,48 +109,40 @@ public class UspsStepDefs {
         Assert.assertEquals(expectedPrice, actualPrice);
     }
 
+    @When("I perform Free Boxes search")
+    public void iPerformFreeBoxesSearch() {
+        WebElement searchIcon = driver.findElement(By.xpath("//li[contains(@class, 'nav-search')]//a[text()='Search USPS.com']"));
+        WebElement searchFreeBoxes = driver.findElement(By.xpath("//li[contains(@class, 'nav-search')]//*[text()='FREE BOXES']"));
+
+        actions.moveToElement(searchIcon).perform();
+        actions.moveByOffset(0, 50).perform();
+        actions.moveToElement(searchFreeBoxes).click().perform();
+    }
+
+    @And("I set Send in filters")
+    public void iSetSendInFilters() {
+        WebElement checkboxSend = driver.findElement(By.xpath("//label[text()='Send']/../input"));
+        wait.until(ExpectedConditions.elementToBeClickable(checkboxSend)).click();
+    }
+
+    @When("I go to Every Door Direct Mail under Business")
+    public void iGoToEveryDoorDirectMailUnderBusiness() {
+        WebElement navMenuBusinessButton = driver.findElement(By.xpath("//nav//a[text()='Business']"));
+        WebElement everyDoorDirectMail = driver.findElement(By.xpath("//*[text()='Tools']/..//a[text()='Every Door Direct Mail']"));
+
+        actions.moveToElement(navMenuBusinessButton).moveToElement(everyDoorDirectMail).click().perform();
+    }
+
+    @And("I search for {string}")
+    public void iSearchFor(String address) {
+        WebElement searchField = driver.findElement(By.xpath("//input[@id='cityOrZipCode']"));
+        WebElement searchButton = driver.findElement(By.xpath("//button[@id='geoLocation']/../../../..//a[text()='Search']"));
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated((By) searchField)).sendKeys(address);
+    }
+
     private WebElement waitFor(String xpath) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
     }
 }
-
-
-//class QuickToolsMenu {
-//    private final WebElement root;
-//    private final By zipCodeButtonSelector = By.xpath("//*[@id ='navquicktools']/../..//*[contains(text(), 'ZIP')]");
-//
-//    public QuickToolsMenu(WebElement root) {
-//        this.root = root;
-//    }
-//
-//    public void clickZipCodeButton() {
-//        WebElement zipCodeButton = root.findElement(zipCodeButtonSelector);
-//        new Actions((WebDriver) zipCodeButton)
-//                .moveToElement(zipCodeButton)
-//                .click(zipCodeButton)
-//                .perform();
-//    }
-//}
-//
-//class MainMenu {
-//    private final WebElement root;
-//    private final By quicktoolsMenuSelector = By.xpath(".//*[@id ='navquicktools']/..");
-//
-//    public MainMenu(WebElement root) {
-//        this.root = root;
-//    }
-//
-//    public QuickToolsMenu openQuickToolsMenu() {
-//        WebElement quickToolsMenu = root.findElement(quicktoolsMenuSelector);
-//        new Actions((WebDriver) quickToolsMenu)
-//                .moveToElement(quickToolsMenu)
-//                .perform();
-//        return new QuickToolsMenu(quickToolsMenu);
-//    }
-//}
-//
-//
-//        new MainMenu(driver.findElement(By.xpath("//*[@id = 'g-navigation']")))
-//                .openQuickToolsMenu()
-//                .clickZipCodeButton();

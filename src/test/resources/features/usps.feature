@@ -1,15 +1,19 @@
 Feature: USPS
-  Scenario Outline: Validate ZIP code for Portnov Computer School
+
+  Background: Open usps page
     Given I go to "usps" page
+
+  Scenario Outline: Validate ZIP code by address
     When I go to Lookup ZIP page by address
     And I fill out <street> street, <city> city, <state> state
     Then I validate <zip> zip code exists in the result
     Examples:
       | street                | city        | state | zip     |
       | "4970 El Camino Real" | "Los Altos" | "CA"  | "94022" |
+      | "20 Broad st"         | "New York"  | "NY"  | "10005" |
+      | "440 S. LaSalle st"   | "Chicago"   | "IL"  | "60605" |
 
   Scenario Outline: Calculate price
-    Given I go to "usps" page
     When I go to Calculate Price Page
     And I select <country> with Postcard shape
     And I define <quantity> quantity
@@ -17,39 +21,36 @@ Feature: USPS
     Examples:
       | country  | quantity | price   |
       | "Canada" | "2"      | "$2.80" |
-#      | "Aruba"  | "3"      | "$4.20" |
+      | "Aruba"  | "3"      | "$4.20" |
 
-#  HOMEWORK FOR DAY 10
+#TODO - HOMEWORK FOR DAY 10
   Scenario: Verify location
-    Given I go to "usps" page
-    When I perform "Free Boxes" search
-    And I set "Send" in filters
-    Then I verify that "7" results found
-    When I select "Priority Mail | USPS" in results
-    And I click "Ship Now" button
-    Then I validate that Sign In is required
+    When I perform Free Boxes search
+    * I wait for 5 sec
+    And I set Send in filters
+    * I wait for 5 sec
+#    Then I verify that "7" results found
+#    When I select "Priority Mail | USPS" in results
+#    And I click "Ship Now" button
+#    Then I validate that Sign In is required
 #  For the last scenario last step you can use the following snippet to switch to a new tab. We'll review it in the next class:
 #  // switch to new window
 #  for (String handle : getDriver().getWindowHandles()) {
 #  getDriver().switchTo().window(handle);
 #  }
 
-#  HOMEWORK FOR DAY 11
+#TODO - HOMEWORK FOR DAY 11/12
   Scenario: Every door direct mail
-    Given I open "usps" page
-    When I go to "Every Door Direct Mail" under "Business"
+    When I go to Every Door Direct Mail under Business
     And I search for "4970 El Camino Real, Los Altos, CA 94022"
-    And I choose view as "Table" on the map
-    When I select all in the table
-    And I close modal window
+    * I choose view as "Table" on the map
+    * I select all in the table
+    * I close modal window
     Then I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary
 
-#  HOMEWORK FOR DAY 12
-  Scenario: Every door direct mail
-    Given I open "usps" page
-    When I go to "Every Door Direct Mail" under "Business"
-    And I search for "4970 El Camino Real, Los Altos, CA 94022"
-    And I choose view as "Table" on the map
-    When I select all in the table
-    And I close modal window
-    Then I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary
+#TODO - HOMEWORK FOR DAY 13
+  Scenario: E2E UPS Scenario
+    When I go to Create a Shipment
+    And I fill out origin shipment fields
+    * I submit the shipment form
+    Then I verify origin shipment fields submitted

@@ -1,23 +1,67 @@
 Feature: Validate Quote
+
   Background: Open quote page
     Given I go to "quote" page
+
+    Scenario: Quote page - alert, iframe, new window
+      When I "accept" third party agreement
+      And I fill out contact name "Silvestr" and phone "0987654321"
+      Then I verify "Document 2" in related documents
+
+
+#TODO -
+  @quote3
+  Scenario Outline: Quote page - e2e
+    When I fill out required fields for "<role>" user
+    Then I verify that fields values saved correctly for "<role>" user
+    Examples:
+      | role    |
+      | regular |
+      | admin   |
+
+#TODO -
+  @quote4
+  Scenario Outline: Quote page - OOP
+    When I fill out required fields for "<role>" user - OOP
+    Then I verify that fields values saved correctly for "<role>" user - OOP
+    Examples:
+      | role    |
+      | regular |
+      | admin   |
+
+  Scenario: Get info from page exercises
+    When I print current page URL
+    And I print page title
+    * I print window handles
+    * I print page source
+
+#TODO -
+  Scenario: Navigation exercises
+    And I go to "google" page
+    And I go back and forward, then refresh the page
+
+#TODO -
+  Scenario: Switch devise exercises
+    And I change resolution to "phone"
+    And I change resolution to "desktop"
+
+ #TODO -
+  Scenario: Verify that chosen date is formed out correctly
+    When I click on element with xpath "//input[@id ='dateOfBirth']"
+    And I click on element with xpath "//td[contains(@class, 'ui-datepicker-current-day')]"
+    Then element with xpath {string} should have text as {string}
 
   Scenario: Verify that upon clicking dialog appears
     When I click on element with xpath "//input[@id ='dateOfBirth']"
     Then element with xpath "//div[@id ='ui-datepicker-div']" should be displayed
 
-#  Scenario: Verify that chosen date is formed out correctly
-#    When I click on element with xpath "//input[@id ='dateOfBirth']"
-#    And I click on element with xpath "//td[contains(@class, 'ui-datepicker-current-day')]"
-#    Then element with xpath {string} should have text as {string}
-
   Scenario Outline: Validate responsive UI for Quote
     When I resize window to <width> and <height>
     Then element with xpath "//div[@class='title']/../div[@class='row']" should be displayed
     Examples:
-      | width  | height |
-      | 800    | 1024   |
-      | 1280   | 1024   |
+      | width | height |
+      | 800   | 1024   |
+      | 1280  | 1024   |
 
   Scenario Outline: Validate responsive UI for Quote for mobile
     When I resize window to <width> and <height>
@@ -25,8 +69,8 @@ Feature: Validate Quote
     * element with xpath "//*[@id='currentDate']" should not be displayed
     * element with xpath "//*[@id='currentTime']" should not be displayed
     Examples:
-      | width  | height  |
-      | 400    | 1024    |
+      | width | height |
+      | 400   | 1024   |
 
   Scenario: Validate required fields
     When I click on element with xpath "//*[@id='formSubmit']"
@@ -85,13 +129,13 @@ Feature: Validate Quote
     And I click on element with xpath "//div[@id='nameDialog']/..//span[contains(text(),'Save')]/.."
     Then element with xpath "//input[@id='name']" should have attribute "value" as "<full_name>"
     Examples:
-      |name  |middle_name |last_name |full_name     |
-      |Jenny |            |          |Jenny         |
-      |Jenny |            | Bykova   |Jenny Bykova  |
-      |Jenny | S          | Bykova   |Jenny S Bykova|
-      |Jenny | S          |          |Jenny S       |
-      |      |            | Bykova   |Bykova        |
-      |      | S          |          |S             |
+      | name  | middle_name | last_name | full_name      |
+      | Jenny |             |           | Jenny          |
+      | Jenny |             | Bykova    | Jenny Bykova   |
+      | Jenny | S           | Bykova    | Jenny S Bykova |
+      | Jenny | S           |           | Jenny S        |
+      |       |             | Bykova    | Bykova         |
+      |       | S           |           | S              |
 
   Scenario Outline: Validate name field behavior without save data
     When I click on element with xpath "//input[@id='name']"
@@ -102,9 +146,9 @@ Feature: Validate Quote
     And I click on element with xpath "<type_of_button>"
     Then element with xpath "//input[@id='name']" should not have attribute "value" as "<full_name>"
     Examples:
-      |name  |middle_name |last_name |full_name     |type_of_button                                                |
-      |Jenny | S          | Bykova   |Jenny S Bykova|//div[@id='nameDialog']/..//span[contains(text(),'Cancel')]/..|
-      |Jenny | S          | Bykova   |Jenny S Bykova|//div[@id='nameDialog']/..//span[contains(text(),'Close')]/.. |
+      | name  | middle_name | last_name | full_name      | type_of_button                                                 |
+      | Jenny | S           | Bykova    | Jenny S Bykova | //div[@id='nameDialog']/..//span[contains(text(),'Cancel')]/.. |
+      | Jenny | S           | Bykova    | Jenny S Bykova | //div[@id='nameDialog']/..//span[contains(text(),'Close')]/..  |
 
   Scenario Outline: Submit the form and verify the data
     When I click on element with xpath "//input[@id='name']"
@@ -126,20 +170,3 @@ Feature: Validate Quote
     Examples:
       | first_name | last_name | user_name | email       | password | full_name    |
       | Jenny      | Bykova    | Jenny_B   | j@gmail.com | 12345    | Jenny Bykova |
-
-
-
-#  HOMEWORK FOR DAY 7
-#  1) Do exercises in Day7_slides - refer to steps in quote.feature
-
-
-#  HOMEWORK FOR DAY 11
-#  Write three BDD scenarios that would:
-#  1) Go to converter page
-#  2) Would click on Temperature, Weight, Length, etc.
-#  3) Set from which Unit and to which Unit with specific values
-#  4) Set From field value and verify any result in To value
-#  Temperature: 54 Fahrenheit to Celsius result is 12.2
-#  Weight: 170 Pound to Kilogram is 77
-#  Length: 50 Mile to Kilometer is 80.4
-#  Convert to scenario outline after implementation.
