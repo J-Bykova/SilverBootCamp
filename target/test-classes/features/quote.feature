@@ -3,10 +3,10 @@ Feature: Validate Quote
   Background: Open quote page
     Given I go to "quote" page
 
-    Scenario: Quote page - alert, iframe, new window
-      When I "accept" third party agreement
-      And I fill out contact name "Silvestr" and phone "0987654321"
-      Then I verify "Document 2" in related documents
+  Scenario: Quote page - alert, iframe, new window
+    When I "accept" third party agreement
+    And I fill out contact name "Silvestr" and phone "0987654321"
+    Then I verify "Document 2" in related documents
 
 
 #TODO -

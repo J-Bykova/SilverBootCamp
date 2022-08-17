@@ -3,6 +3,7 @@ package definitions;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -91,7 +92,7 @@ public class UspsStepDefs {
     }
 
     @And("I define {string} quantity")
-    public void iDefineQuantityQuantity(String quantity) {
+    public void iDefineQuantity(String quantity) {
         String quantityInput = "//input[@id='quantity-0']";
 
         driver.findElement(By.xpath(quantityInput)).sendKeys(quantity);
@@ -110,19 +111,22 @@ public class UspsStepDefs {
     }
 
     @When("I perform Free Boxes search")
-    public void iPerformFreeBoxesSearch() {
+    public void iPerformSearch() {
+        //TODO rewrite using typing info into field: type into field and click enter
         WebElement searchIcon = driver.findElement(By.xpath("//li[contains(@class, 'nav-search')]//a[text()='Search USPS.com']"));
         WebElement searchFreeBoxes = driver.findElement(By.xpath("//li[contains(@class, 'nav-search')]//*[text()='FREE BOXES']"));
 
         actions.moveToElement(searchIcon).perform();
         actions.moveByOffset(0, 50).perform();
         actions.moveToElement(searchFreeBoxes).click().perform();
+        waitForSpinner();
     }
 
-    @And("I set Send in filters")
-    public void iSetSendInFilters() {
-        WebElement checkboxSend = driver.findElement(By.xpath("//label[text()='Send']/../input"));
-        wait.until(ExpectedConditions.elementToBeClickable(checkboxSend)).click();
+    @And("I set {string} in filters")
+    public void iSetFilters(String nameOfFilter) {
+        WebElement filter = driver.findElement(By.xpath(String.format("//label[contains(text(), '%s')]", nameOfFilter)));
+        filter.click();
+        waitForSpinner();
     }
 
     @When("I go to Every Door Direct Mail under Business")
@@ -139,6 +143,46 @@ public class UspsStepDefs {
         WebElement searchButton = driver.findElement(By.xpath("//button[@id='geoLocation']/../../../..//a[text()='Search']"));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated((By) searchField)).sendKeys(address);
+    }
+
+    @Then("I verify that {int} results found")
+    public void iVerifyThatResults(Integer count) {
+        String resultHeader = driver.findElement(By.xpath("//span[@id='searchResultsHeading']")).getText();
+        assertThat(resultHeader).contains(count.toString());
+
+        List<WebElement> result = driver.findElements(By.xpath("//ul[@id='records']/li"));
+        assertThat(result.size()).isEqualTo(count);
+    }
+
+    @When("I select {string} in result")
+    public void iSelectResult(String title) {
+        WebElement result = driver.findElement(By.xpath(String.format("//ul[@id='records']/li//span[text()='%s']", title)));
+        result.click();
+    }
+
+    @And("I click {string} button")
+    public void iClickButton(String buttonName) {
+        driver.findElement(By.xpath(String.format("//a[contains(text(),'%s')]", buttonName))).click();
+    }
+
+    @Then("I validate that Sign In is required")
+    public void iValidateThatSignInIsRequired() {
+        String originalWindow = driver.getWindowHandle();
+        for (String handle : driver.getWindowHandles()) {
+            getDriver().switchTo().window(handle);
+        }
+
+        waitForSpinner();
+
+        String title = driver.getTitle();
+        assertThat(title).contains("Sign In");
+
+        driver.switchTo().window(originalWindow);
+    }
+
+    private void waitForSpinner() {
+        WebElement spinner = driver.findElement(By.xpath("//div[@class='white-spinner-container']"));
+        wait.until(ExpectedConditions.invisibilityOf(spinner));
     }
 
     private WebElement waitFor(String xpath) {
