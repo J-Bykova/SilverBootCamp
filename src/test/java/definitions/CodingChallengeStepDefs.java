@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CodingChallengeStepDefs {
@@ -62,11 +63,6 @@ public class CodingChallengeStepDefs {
     @Then("I expect maskify\\({string}) returns {string}")
     public void iExpectMaskifyReturns(String str, String result) {
         Assert.assertEquals(maskify(str), result);
-    }
-
-    @Then("I expect getThirdElem\\(str) returns every third element from str")
-    public void iExpectGetThirdElemStrReturnsEveryThirdElementFromStr() {
-        throw new RuntimeException();
     }
 
     @Then("I print if number {int} is positive")
@@ -203,6 +199,24 @@ public class CodingChallengeStepDefs {
         printMaxNum(arr);
     }
 
+
+    @When("I expect bubbleSort\\(arr) to return sorted array")
+    public void iExpectBubbleSortArrToReturnSortedArray() {
+        int[] arr = {1, 7, 3, 9, 5};
+        int arrLength = arr.length;
+        int term = 0;
+        for (int i = 0; i < arrLength - 1; i++) {
+            for (int j = 1; j < arrLength - i; j++) {
+                if (arr[j - 1] > arr[j]) {
+                    term = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = term;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+
     private void printMaxNum(int[] arr) {
         int maxNum = 0;
         for (int i = 0; i < arr.length; i++) {
@@ -221,7 +235,7 @@ public class CodingChallengeStepDefs {
             if (firstNum < arr[i]) {
                 secondNum = firstNum;
                 firstNum = arr[i];
-            } else if (secondNum < arr[i]){
+            } else if (secondNum < arr[i]) {
                 secondNum = arr[i];
             }
         }

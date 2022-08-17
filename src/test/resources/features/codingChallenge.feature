@@ -1,21 +1,25 @@
 Feature: Coding challenges
 
+  Scenario: Sorting arrays
+    When I expect bubbleSort(arr) to return sorted array
+    #    And I expect isSort(arr) to return false if array is unsorted
+
   Scenario: My coding challenges
-#    Then I expect isOddOrEven(5) returns "odd" if num is odd or "even" if num is even
-#    And Return every third element
-#    And I run buzzFizz(20) function
-#    And I expect getLargestElem(arr) returns the largest element in an array
+    Then I expect isOddOrEven(5) returns "odd" if num is odd or "even" if num is even
+    And Return every third element
+    And I run buzzFizz(20) function
+    And I expect getLargestElem(arr) returns the largest element in an array
     And I expect getTwoMaxNums(arr) returns two max numbers from array
 #    Then I expect isPrime(n) to return true if num is
-#    * I expect isSort(arr) to return false if array is unsorted
-#    * I expect swapsElem(arr, firstNum, secondNum) swaps "3" and "5" elem into "array"
-#    * I expect reversesSentence(str) reverses words in a sentence
-#    * I expect getAverageOfNum(arr) calculates the average of the numbers in list
+#    And I expect swapsElem(arr, firstNum, secondNum) swaps "3" and "5" elem into "array"
+#    And I expect reversesSentence(str) reverses words in a sentence
+#    And I expect getAverageOfNum(arr) calculates the average of the numbers in list
 ##  Note: Empty arrays should return 0. ^
-#    * I expect getDuplicates(arr) returns true if find duplicates
-#    * I expect getVowelsFromStr(str) returns count vowels in the string
-#    * I expect isSumOddOrEven(arr) to return ""
-#    * I expect divisibleByNum() return num
+#    And I expect getDuplicates(arr) returns true if find duplicates
+#    And I expect getVowelsFromStr(str) returns count vowels in the string
+#    And I expect isSumOddOrEven(arr) to return ""
+#    And I expect divisibleByNum() return num
+#    And I expect getThirdElem(str) returns every third element from str
 
 
 #  * Determine O() for remaining existing coding challenges
@@ -81,9 +85,6 @@ Feature: Coding challenges
       | word  |
       | "ab"  |
       | "abs" |
-
-  Scenario: Returns every third element
-    Then I expect getThirdElem(str) returns every third element from str
 
   Scenario Outline: Example of java conditions
     * I print if number <num> is positive
