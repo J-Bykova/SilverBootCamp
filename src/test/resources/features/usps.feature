@@ -31,13 +31,12 @@ Feature: USPS
     And I click 'Ship Now' button
     Then I validate that Sign In is required
 
-#TODO - HOMEWORK FOR DAY 11/12
   Scenario: Every door direct mail
-    When I go to Every Door Direct Mail under Business
-    And I search for "4970 El Camino Real, Los Altos, CA 94022"
-    * I choose view as "Table" on the map
-    * I select all in the table
-    * I close modal window
+    When I go to 'Every Door Direct Mail' under 'Business'
+    And I search for '4970 El Camino Real, Los Altos, CA 94022'
+    And I choose view as 'Table' on the map
+    And I select all in the table
+    And I close modal window
     Then I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary
 
 #TODO - HOMEWORK FOR DAY 13

@@ -3,9 +3,9 @@ package definitions;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -18,12 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.within;
 import static support.TestContext.getDriver;
 
 public class UspsStepDefs {
     WebDriver driver = getDriver();
     Actions actions = new Actions(driver);
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     WebElement navMenuSendButton = driver.findElement(By.xpath("//*[@id='navmailship']/../a[text()='Send']"));
 
@@ -59,7 +60,7 @@ public class UspsStepDefs {
         String resultListItemPath = "//*[@class='zipcode-result-address']//strong";
         String resultsContainerPath = "//*[@id='zipByAddressDiv']";
 
-        WebElement resultsContainer = waitFor(resultsContainerPath);
+        WebElement resultsContainer = waitForVisible(resultsContainerPath);
         List<WebElement> resultElements = resultsContainer.findElements(By.xpath(resultListItemPath));
 
         List<String> resultTexts = new ArrayList<>();
@@ -129,20 +130,29 @@ public class UspsStepDefs {
         waitForSpinner();
     }
 
-    @When("I go to Every Door Direct Mail under Business")
-    public void iGoToEveryDoorDirectMailUnderBusiness() {
-        WebElement navMenuBusinessButton = driver.findElement(By.xpath("//nav//a[text()='Business']"));
-        WebElement everyDoorDirectMail = driver.findElement(By.xpath("//*[text()='Tools']/..//a[text()='Every Door Direct Mail']"));
+    @When("I go to {string} under {string}")
+    public void iGoToPage(String menuItem, String menuSection) {
+        WebElement navMenuSection = driver.findElement(By.xpath(String.format("//nav//a[text()='%s']", menuSection)));
+        WebElement navMenuItem = driver.findElement(By.xpath(String.format("//*[text()='Tools']/..//a[text()='%s']", menuItem)));
 
-        actions.moveToElement(navMenuBusinessButton).moveToElement(everyDoorDirectMail).click().perform();
+        actions.moveToElement(navMenuSection).moveByOffset(0, 50).moveToElement(navMenuItem).click().perform();
     }
 
     @And("I search for {string}")
     public void iSearchFor(String address) {
-        WebElement searchField = driver.findElement(By.xpath("//input[@id='cityOrZipCode']"));
-        WebElement searchButton = driver.findElement(By.xpath("//button[@id='geoLocation']/../../../..//a[text()='Search']"));
+        WebElement fieldOfSearchForRoutes = waitForPresent("//label[text()='Search for Routes']/..//input[@id='cityOrZipCode']");
+        WebElement searchButton = waitForPresent("//a[contains(@class,'eddm-search-btn') and text()='Search']");
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated((By) searchField)).sendKeys(address);
+        actions.moveToElement(fieldOfSearchForRoutes)
+                .click()
+                .sendKeys(address)
+                .perform();
+
+        actions.moveToElement(searchButton)
+                .click()
+                .perform();
+
+        waitForSpinner();
     }
 
     @Then("I verify that {int} results found")
@@ -180,13 +190,56 @@ public class UspsStepDefs {
         driver.switchTo().window(originalWindow);
     }
 
+    @And("I choose view as {string} on the map")
+    public void iChooseViewAsOnTheMap(String typeOfView) {
+        driver.findElement(By.xpath(String.format("//ul[contains(@class, 'view-tabs')]//span[text()='%s']/..", typeOfView))).click();
+    }
+
+    @And("I select all in the table")
+    public void iSelectAllInTheTable() {
+        driver.findElement(By.xpath("//input[@id='select-all-checkboxes']")).click();
+    }
+
+    @And("I close modal window")
+    public void iCloseModalWindow() {
+        driver.findElement(By.xpath("//a[@id='closeAndUpdateTotals']")).click();
+    }
+
+    @Then("I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary")
+    public void iVerifyThatSummaryOfAllRowsOfCostColumnIsEqualApproximateCostInOrderSummary() {
+        List<WebElement> costCells = driver.findElements(By.xpath("//table[contains(@class,'target-audience-table')]//td[9]/p"));
+        WebElement approximateCostElem = driver.findElement(By.xpath("//*[@id='approximateCost']"));
+        double displayedCost = Double.parseDouble(approximateCostElem.getText().substring(1));
+        double calculatedCost = 0;
+
+        for (WebElement cell : costCells) {
+            scrollTo(cell);
+            calculatedCost += Double.parseDouble(cell.getText().substring(1));
+        }
+
+        assertThat(displayedCost).isEqualTo(calculatedCost, within(0.1));
+    }
+
     private void waitForSpinner() {
         WebElement spinner = driver.findElement(By.xpath("//div[@class='white-spinner-container']"));
         wait.until(ExpectedConditions.invisibilityOf(spinner));
     }
 
-    private WebElement waitFor(String xpath) {
+    private WebElement waitForVisible(String xpath) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+    }
+
+    private WebElement waitForPresent(String xpath) {
+        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+    }
+
+    private WebElement scrollTo(WebElement elem) {
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].scrollIntoView(true)", elem);
+        if (!elem.isDisplayed()) {
+            throw new RuntimeException("Cannot scroll to the element");
+        }
+        return elem;
     }
 }
