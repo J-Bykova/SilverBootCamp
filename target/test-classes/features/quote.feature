@@ -3,13 +3,7 @@ Feature: Validate Quote
   Background: Open quote page
     Given I go to "quote" page
 
-  Scenario: Quote page - alert, iframe, new window
-    When I "accept" third party agreement
-    And I fill out contact name "Silvestr" and phone "0987654321"
-    Then I verify "Document 2" in related documents
-
-
-#TODO -
+    #TODO -
   @quote3
   Scenario Outline: Quote page - e2e
     When I fill out required fields for "<role>" user
@@ -18,6 +12,22 @@ Feature: Validate Quote
       | role    |
       | regular |
       | admin   |
+
+#TODO -
+  Scenario: Navigation exercises
+    And I go to "google" page
+    And I go back and forward, then refresh the page
+
+#TODO -
+  Scenario: Switch devise exercises
+    And I change resolution to "phone"
+    And I change resolution to "desktop"
+
+ #TODO -
+  Scenario: Verify that chosen date is formed out correctly
+    When I click on element with xpath "//input[@id ='dateOfBirth']"
+    And I click on element with xpath "//td[contains(@class, 'ui-datepicker-current-day')]"
+    Then element with xpath {string} should have text as {string}
 
 #TODO -
   @quote4
@@ -35,21 +45,10 @@ Feature: Validate Quote
     * I print window handles
     * I print page source
 
-#TODO -
-  Scenario: Navigation exercises
-    And I go to "google" page
-    And I go back and forward, then refresh the page
-
-#TODO -
-  Scenario: Switch devise exercises
-    And I change resolution to "phone"
-    And I change resolution to "desktop"
-
- #TODO -
-  Scenario: Verify that chosen date is formed out correctly
-    When I click on element with xpath "//input[@id ='dateOfBirth']"
-    And I click on element with xpath "//td[contains(@class, 'ui-datepicker-current-day')]"
-    Then element with xpath {string} should have text as {string}
+  Scenario: Quote page - alert, iframe, new window
+    When I "accept" third party agreement
+    And I fill out contact name "Silvestr" and phone "0987654321"
+    Then I verify "Document 2" in related documents
 
   Scenario: Verify that upon clicking dialog appears
     When I click on element with xpath "//input[@id ='dateOfBirth']"

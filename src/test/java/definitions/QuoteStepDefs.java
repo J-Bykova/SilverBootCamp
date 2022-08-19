@@ -6,6 +6,10 @@ import io.cucumber.java.en.When;
 import io.netty.channel.unix.Errors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import support.TestContext;
+
+import java.io.FileNotFoundException;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static support.TestContext.getDriver;
@@ -68,4 +72,62 @@ public class QuoteStepDefs {
 
         driver.switchTo().window(originalWindow);
     }
+
+    @When("I fill out required fields for {string} user")
+    public void iFillOutRequiredFieldsForUser(String role) {
+        Map<String, String> user = TestContext.getDataByFileName(role);
+
+        driver.findElement(By.xpath("//input[@id='name']")).click();
+        driver.findElement(By.xpath("//div[@id='nameDialog']/..//input[@id='firstName']")).sendKeys(user.get("firstName"));
+        driver.findElement(By.xpath("//div[@id='nameDialog']/..//input[@id='lastName']")).sendKeys(user.get("lastName"));
+        driver.findElement(By.xpath("//div[@id='nameDialog']/..//span[contains(text(),'Save')]/..")).click();
+
+        driver.findElement(By.xpath("//input[@name='username']")).sendKeys(user.get("username"));
+        driver.findElement(By.xpath("//input[@name='email']")).sendKeys(user.get("email"));
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(user.get("password"));
+        driver.findElement(By.xpath("//input[@name='confirmPassword']")).sendKeys(user.get("password"));
+
+        driver.findElement(By.xpath("//input[@name='agreedToPrivacyPolicy']")).click();
+
+        driver.findElement(By.xpath("//button[@id='formSubmit']")).click();
+    }
+
+    @Then("I verify that fields values saved correctly for {string} user")
+    public void iVerifyThatFieldsValuesSavedCorrectlyForUser(String role) {
+        Map<String, String> user = TestContext.getDataByFileName(role);
+        String firstNameResult = driver.findElement(By.xpath("//b[@name='firstName']")).getText();
+        String lastNameResult = driver.findElement(By.xpath("//b[@name='lastName']")).getText();
+        String emailResult = driver.findElement(By.xpath("//b[@name='email']")).getText();
+        String usernameResult = driver.findElement(By.xpath("//b[@name='username']")).getText();
+        String passwordResult = driver.findElement(By.xpath("//b[@name='password']")).getText();
+
+        assertThat(firstNameResult).contains(user.get("firstName"));
+        assertThat(lastNameResult).contains(user.get("lastName"));
+        assertThat(emailResult).contains(user.get("email"));
+        assertThat(usernameResult).contains(user.get("username"));
+        assertThat(passwordResult).doesNotContain(user.get("password"));
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

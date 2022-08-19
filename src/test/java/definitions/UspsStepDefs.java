@@ -131,11 +131,11 @@ public class UspsStepDefs {
     }
 
     @When("I go to {string} under {string}")
-    public void iGoToPage(String menuItem, String menuSection) {
-        WebElement navMenuSection = driver.findElement(By.xpath(String.format("//nav//a[text()='%s']", menuSection)));
-        WebElement navMenuItem = driver.findElement(By.xpath(String.format("//*[text()='Tools']/..//a[text()='%s']", menuItem)));
+    public void iGoToPage(String subMenu, String menu) {
+        WebElement navMenu = driver.findElement(By.xpath(String.format("//nav//a[text()='%s']", menu)));
+        WebElement navSubMenu = driver.findElement(By.xpath(String.format("//*[text()='Tools']/..//a[text()='%s']", subMenu)));
 
-        actions.moveToElement(navMenuSection).moveByOffset(0, 50).moveToElement(navMenuItem).click().perform();
+        actions.moveToElement(navMenu).moveByOffset(0, 50).moveToElement(navSubMenu).click().perform();
     }
 
     @And("I search for {string}")
