@@ -4,11 +4,11 @@ import org.openqa.selenium.support.PageFactory;
 
 import static support.TestContext.getDriver;
 
-public class QuotePage {
+public class Page {
     protected String url;
     protected String title;
 
-    public QuotePage() {
+    public Page() {
         PageFactory.initElements(getDriver(), this);
     }
 

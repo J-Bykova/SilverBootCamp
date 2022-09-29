@@ -4,15 +4,12 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.netty.channel.unix.Errors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.QuoteForm;
-import pages.QuotePage;
 import pages.QuoteResult;
 import support.TestContext;
 
-import java.io.FileNotFoundException;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

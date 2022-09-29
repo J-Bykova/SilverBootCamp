@@ -3,7 +3,7 @@ package pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class QuoteForm extends QuotePage {
+public class QuoteForm extends Page {
     @FindBy(xpath = "//input[@id='name']")
     private WebElement name;
     @FindBy(xpath = "//div[@id='nameDialog']/..//input[@id='firstName']")
