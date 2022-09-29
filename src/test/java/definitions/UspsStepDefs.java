@@ -34,8 +34,8 @@ public class UspsStepDefs {
         String findByAddressLink = "//*[@id='zip-lookup-welcome']//a[text()= 'Find by Address']";
 
         navMenuSendButton.click();
-        driver.findElement(By.xpath(findZipCodeLink)).click();
-        driver.findElement(By.xpath(findByAddressLink)).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(findZipCodeLink))).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(findByAddressLink))).click();
     }
 
     @And("I fill out {string} street, {string} city, {string} state")
@@ -45,9 +45,9 @@ public class UspsStepDefs {
         String statesDropdown = "//select[@id='tState']";
         String zipCodeFindButton = "//a[@id='zip-by-address']";
 
-        driver.findElement(By.xpath(streetAddressField)).sendKeys(street);
-        driver.findElement(By.xpath(cityField)).sendKeys(city);
-        driver.findElement(By.xpath(statesDropdown)).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(streetAddressField))).sendKeys(street);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(cityField))).sendKeys(city);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(statesDropdown))).click();
 
         Select stateSelect = new Select(driver.findElement(By.xpath(statesDropdown)));
         stateSelect.selectByValue(state);
@@ -83,12 +83,12 @@ public class UspsStepDefs {
 
     @And("I select {string} with Postcard shape")
     public void iSelectCountryWithShape(String country) {
-        WebElement countryDropdown = driver.findElement(By.xpath("//select[@id='CountryID']"));
-        WebElement countryElem = driver.findElement(By.xpath(String.format("//option[text()='%s']", country)));
+//        WebElement countryDropdown = driver.findElement(By.xpath("//select[@id='CountryID']"));
+//        WebElement countryElem = driver.findElement(By.xpath(String.format("//option[text()='%s']", country)));
         WebElement postcardButton = driver.findElement(By.xpath("//*[@id='options-section']//input[@value='Postcard']"));
 
-        wait.until(ExpectedConditions.presenceOfElementLocated((By) countryDropdown)).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated((By) countryElem)).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//select[@id='CountryID']"))).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated((By.xpath(String.format("//option[text()='%s']", country))))).click();
         postcardButton.click();
     }
 

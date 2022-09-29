@@ -1,11 +1,15 @@
 package definitions;
 
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.netty.channel.unix.Errors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pages.QuoteForm;
+import pages.QuotePage;
+import pages.QuoteResult;
 import support.TestContext;
 
 import java.io.FileNotFoundException;
@@ -107,8 +111,47 @@ public class QuoteStepDefs {
         assertThat(usernameResult).contains(user.get("username"));
         assertThat(passwordResult).doesNotContain(user.get("password"));
     }
-}
 
+    @When("I fill out required fields for {string} user - OOP")
+    public void iFillOutRequiredFieldsForUserOOP(String role) {
+        Map<String, String> user = TestContext.getDataByFileName(role);
+        QuoteForm form = new QuoteForm();
+
+        form.fillName(user.get("firstName"), user.get("lastName"));
+        form.fillUserName(user.get("username"));
+        form.fillEmail(user.get("email"));
+        form.fillPasswordFields(user.get("password"));
+        form.acceptPrivacyPolicy();
+        form.submitForm();
+    }
+
+    @Then("I verify that fields values saved correctly for {string} user - OOP")
+    public void iVerifyThatFieldsValuesSavedCorrectlyForUserOOP(String role) {
+        Map<String, String> user = TestContext.getDataByFileName(role);
+        QuoteResult quoteResult = new QuoteResult();
+        assertThat(quoteResult.getPasswordText()).doesNotContain(user.get("password"));
+        assertThat(quoteResult.isAgreedToPrivacyPolicy()).isTrue();
+        assertThat(quoteResult.getApplicationDetails()).contains(
+                user.get("firstName"),
+                user.get("lastName"),
+                user.get("username"),
+                user.get("email")
+        );
+
+//        throw new RuntimeException();
+    }
+
+    @Given("I go to {string} page - OOP")
+    public void iGoToPageOOP(String page) {
+        switch (page) {
+            case "quote":
+                new QuoteForm().open();
+                break;
+            default:
+                throw new Error("unknown page: " + page);
+        }
+    }
+}
 
 
 

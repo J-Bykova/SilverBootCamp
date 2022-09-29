@@ -1,7 +1,7 @@
 Feature: Validate Quote
 
   Background: Open quote page
-    Given I go to "quote" page
+#    Given I go to "quote" page
 
   @quote3
   Scenario Outline: Quote page - e2e
@@ -11,6 +11,17 @@ Feature: Validate Quote
       | role    |
       | regular |
       | admin   |
+
+  #TODO -
+  @quote4
+  Scenario Outline: Quote page - OOP
+    Given I go to "quote" page - OOP
+    When I fill out required fields for "<role>" user - OOP
+    Then I verify that fields values saved correctly for "<role>" user - OOP
+    Examples:
+      | role    |
+      | regular |
+#      | admin   |
 
 #TODO -
   Scenario: Navigation exercises
@@ -27,16 +38,6 @@ Feature: Validate Quote
     When I click on element with xpath "//input[@id ='dateOfBirth']"
     And I click on element with xpath "//td[contains(@class, 'ui-datepicker-current-day')]"
     Then element with xpath {string} should have text as {string}
-
-#TODO -
-  @quote4
-  Scenario Outline: Quote page - OOP
-    When I fill out required fields for "<role>" user - OOP
-    Then I verify that fields values saved correctly for "<role>" user - OOP
-    Examples:
-      | role    |
-      | regular |
-      | admin   |
 
   Scenario: Get info from page exercises
     When I print current page URL
